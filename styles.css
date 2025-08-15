@@ -96,3 +96,47 @@ body {
   justify-self: center;
   align-self: center;
 }
+
+#days {
+  grid-row: 2/4;
+  grid-column: 2;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  border: solid 1px greenyellow;
+}
+
+.day {
+  height: 66px;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  grid-template-rows: 1fr 1fr 1fr 10px;
+
+  border: 1px solid fuchsia;
+}
+
+.name {
+  grid-row: 1/3;
+  grid-column: 1/3;
+  align-self: center;
+  font-size: x-large;
+}
+
+.high {
+  grid-row: 3;
+  grid-column: 2;
+}
+
+.low {
+  grid-row: 3;
+  grid-column: 1;
+}
+
+#displayArea {
+  grid-column: 3/5;
+  grid-row: 3;
+  border: 1px solid skyblue;
+
+  display: grid;
+  grid-template-rows: 132px 1fr;
+}

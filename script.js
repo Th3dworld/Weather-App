@@ -4,6 +4,7 @@ const getWeatherData = async (location) => {
     { mode: "cors" }
   );
   const { currentConditions, days } = await rawData.json();
+  console.log(days);
   return { currentConditions, days };
 };
 
