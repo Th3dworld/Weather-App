@@ -28,6 +28,7 @@ body {
   display: grid;
   grid-template-columns: 200px 1fr;
   gap: 5px;
+
   grid-row: 1;
   grid-column: 4;
   justify-self: start;
@@ -47,4 +48,51 @@ body {
 
 #search:active {
   height: 26px;
+}
+
+#hours {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  grid-row: 2;
+  grid-column: 3/5;
+  border: 1px solid red;
+}
+
+.hour {
+  min-width: 59px;
+  height: auto;
+  justify-content: center;
+
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+
+  border: 1px solid yellow;
+}
+
+.time {
+  justify-self: center;
+  align-self: center;
+}
+.TOD {
+  font-size: small;
+}
+
+.icon {
+  justify-self: center;
+  align-self: center;
+
+  width: 40px;
+  height: 25px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  border: 1px solid magenta;
+}
+
+.temp {
+  justify-self: center;
+  align-self: center;
 }
