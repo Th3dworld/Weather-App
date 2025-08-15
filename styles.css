@@ -1,0 +1,41 @@
+body {
+}
+
+#displayBody {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 450px;
+  border-radius: 5px;
+  border: 1px solid black;
+
+  display: grid;
+  grid-template-rows: 80px 70px 1fr;
+  grid-template-columns: 10px 200px 1fr 350px;
+}
+
+#location {
+  grid-row: 1;
+  grid-column: 2;
+  justify-self: start;
+  align-self: center;
+  font-size: xxx-large;
+}
+
+#searchArea {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 5px;
+  grid-row: 1;
+  grid-column: 4;
+  justify-self: start;
+  align-self: center;
+  border: 1px solid aqua;
+}
+
+#search {
+  resize: none;
+  height: 25px;
+}
