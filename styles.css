@@ -32,10 +32,19 @@ body {
   grid-column: 4;
   justify-self: start;
   align-self: center;
-  border: 1px solid aqua;
 }
 
 #search {
+  border-radius: 5px;
   resize: none;
   height: 25px;
+  font-size: x-large;
+}
+
+#search:hover {
+  height: 26px;
+}
+
+#search:active {
+  height: 26px;
 }
