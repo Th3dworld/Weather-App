@@ -19,4 +19,4 @@ const setBackGroundGif = async () => {
 };
 
 setBackGroundGif();
-const { currentConditions, days } = getWeatherData("lusaka");
+const { currentConditions, days } = getWeatherData("atlanta");

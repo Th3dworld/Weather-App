@@ -9,7 +9,7 @@
   </head>
   <body>
     <div id="displayBody">
-      <div id="location">Lusaka</div>
+      <div id="appName">Lusaka</div>
       <div id="searchArea">
         <textarea id="search" cols="1" rows="1"></textarea>
         <button id="searchButton">Check Location</button>
@@ -193,7 +193,47 @@
           <div class="high">H:30°</div>
         </div>
       </div>
-      <div id="displayArea"></div>
+      <div id="displayArea">
+        <div id="weatherDets">
+          <div id="location">Lusaka</div>
+          <div id="temp">30<span>°</span></div>
+          <div id="condition">Cloudy skies throughout the day.</div>
+          <div id="hilow">
+            <div id="low">L:20°</div>
+            <div id="high">H:30°</div>
+          </div>
+        </div>
+        <div id="humidity">
+          <div class="deticon" id="humidityIcon"></div>
+          <div class="val" id="humidityVal">80</div>
+          <div class="desc">Humidity</div>
+        </div>
+        <div id="feelsLike">
+          <div class="deticon" id="feelsLikeIcon"></div>
+          <div class="val" id="feelsLikeVal">20°</div>
+          <div class="desc">Feels Like</div>
+        </div>
+        <div id="precipitation">
+          <div class="deticon" id="precipitationIcon"></div>
+          <div class="val" id="precipitationVal">20%</div>
+          <div class="desc">Precipitation</div>
+        </div>
+        <div id="windSpeed">
+          <div class="deticon" id="windSpeedIcon"></div>
+          <div class="val" id="windSpeedVal">20mph</div>
+          <div class="desc">Wind Speed</div>
+        </div>
+        <div id="sunset">
+          <div class="deticon" id="sunsetIcon"></div>
+          <div class="val" id="sunsetVal">3:45PM</div>
+          <div class="desc">Sunset</div>
+        </div>
+        <div id="randomQuote">
+          <div class="deticon" id="randomQuoteIcon"></div>
+          <div class="val" id="randomQuoteVal"></div>
+          <div class="desc">Quote</div>
+        </div>
+      </div>
     </div>
   </body>
 </html>
