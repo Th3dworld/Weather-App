@@ -18,6 +18,53 @@ let randomQuoteDisplay = document.getElementById("randomQuoteVal");
 //variables to be used
 let place = undefined;
 let weatherData = undefined;
+let currTimeData = undefined;
+
+function returnIconUrl(condition, timeOfDay) {
+  if (timeOfDay == "AM") {
+    switch (condition) {
+      case "Partially cloudy":
+        return "./assets/partiallyCloudyDay.svg";
+      case "Clear":
+        return "./assets/sun.svg";
+      case "Rain, Partially cloudy":
+        return "./assets/rainPartiallyCloudyDay.svg";
+      case "Overcast":
+        return "./assets/overcastDay.svg";
+      case "Rain, Overcast":
+        return "./assets/rainyDay.svg";
+      case "Snow, Rain, Partially cloudy":
+        return "./assets/snowDay.svg";
+      case "Snow, Overcast":
+        return "./assets/snowDay.svg";
+      case "Snow, Rain, Overcast":
+        return "./assets/snowDay.svg";
+    }
+  } else {
+    switch (condition) {
+      case "Partially cloudy":
+        return "./assets/partiallyCloudyNight.svg";
+      case "Clear":
+        return "./assets/moon.svg";
+      case "Rain, Partially cloudy":
+        return "./assets/partiallyCloudyRainNight.svg";
+      case "Overcast":
+        return "./assets/overcastNight.svg";
+      case "Rain, Overcast":
+        return "./assets/partiallyCloudyRainNight.svg";
+      case "Snow, Rain, Partially cloudy":
+        return "./assets/snowNight.svg";
+      case "Snow, Overcast":
+        return "./assets/snowNight.svg";
+      case "Snow, Rain, Overcast":
+        return "./assets/snowNight.svg";
+    }
+  }
+}
+/*
+Posible conditions
+
+ */
 
 //functions
 function updateTime(time) {
@@ -43,6 +90,157 @@ function updateTime(time) {
   halfOfDay.textContent = hours >= 12 ? "PM" : "AM";
 }
 
+function getCurrtimeFormatted({ datetime }) {
+  datetime = datetime.split(":"); // convert to array
+
+  // fetch
+  var hours = Number(datetime[0]);
+
+  // calculate
+  var timeValue;
+  var timeOfDay;
+
+  if (hours > 0 && hours <= 12) {
+    timeValue = "" + hours;
+  } else if (hours > 12) {
+    timeValue = "" + (hours - 12);
+  } else if (hours == 0) {
+    timeValue = "12";
+  }
+
+  timeOfDay = hours >= 12 ? "PM" : "AM";
+  timeValue = Number(timeValue);
+
+  return { timeValue, timeOfDay };
+}
+
+function updateHourlyDisplay({ currentConditions, days }) {
+  let currTime = getCurrtimeFormatted(currentConditions);
+
+  function hourHelper({ datetime, conditions, temp }) {
+    datetime = datetime.split(":"); // convert to array
+
+    // fetch
+    var hours = Number(datetime[0]);
+
+    // calculate
+    var timeValue;
+    var timeOfDay;
+
+    if (hours > 0 && hours <= 12) {
+      timeValue = "" + hours;
+    } else if (hours > 12) {
+      timeValue = "" + (hours - 12);
+    } else if (hours == 0) {
+      timeValue = "12";
+    }
+
+    timeOfDay = hours >= 12 ? "PM" : "AM";
+    timeValue = Number(timeValue);
+    return { timeValue, timeOfDay, conditions, temp };
+  }
+
+  function todayHelper(todaysHour) {
+    console.log(currTime.timeValue);
+    if (currTime.timeOfDay == "AM" && currTime.timeValue == 12) {
+      console.log("here123");
+      return true;
+    } else if (currTime.timeOfDay == "AM") {
+      return (
+        todaysHour.timeValue >= currTime.timeValue ||
+        todaysHour.timeOfDay != currTime.timeOfDay
+      );
+    } else {
+      return (
+        todaysHour.timeValue >= currTime.timeValue &&
+        todaysHour.timeOfDay == currTime.timeOfDay &&
+        todaysHour.timeValue != 12
+      );
+    }
+  }
+
+  function sorthelp(a, b) {
+    if (a.timeValue < b.timeValue) {
+      return -1;
+    }
+    if (a.timeValue > b.timeValue) {
+      return 1;
+    }
+    return 0;
+  }
+
+  //today's hours
+  let todaysHours = days[0].hours
+    .map((hour) => hourHelper(hour))
+    .filter((hour) => todayHelper(hour))
+    .sort(sorthelp);
+
+  //tomorrows hours
+  let tomorrowsHours = days[1].hours.map((hour) => hourHelper(hour));
+  let totalHoursDisplayed = 0;
+  console.log(currentConditions.conditions);
+  console.log(returnIconUrl(currentConditions.conditions, "AM"));
+  todaysHours.forEach((hour) => {
+    if (totalHoursDisplayed == 0) {
+      hourDisplay.innerHTML = `
+        <div class="hour">
+            <div class="time">Now</div>
+            <div
+                class="icon"
+                style="
+                    background-image: url(${returnIconUrl(
+                      currentConditions.conditions,
+                      currTime.timeOfDay
+                    )});
+                "
+            ></div>
+            <div class="temp">${hour.temp}°</div>
+        </div>
+        `;
+    } else {
+      hourDisplay.innerHTML += `
+        <div class="hour">
+            <div class="time">${hour.timeValue}
+                <span class="TOD">${hour.timeOfDay}</span>
+            </div>
+            <div
+                class="icon"
+                style="
+                    background-image: url(${returnIconUrl(
+                      currentConditions.conditions,
+                      hour.timeOfDay
+                    )});
+                "
+            ></div>
+            <div class="temp">${hour.temp}°</div>
+        </div>
+        `;
+    }
+    totalHoursDisplayed += 1;
+  });
+
+  for (i = 0; totalHoursDisplayed < 25; totalHoursDisplayed++, i++) {
+    let hour = tomorrowsHours[i];
+    hourDisplay.innerHTML += `
+          <div class="hour">
+              <div class="time">${hour.timeValue}
+                  <span class="TOD">${hour.timeOfDay}</span>
+              </div>
+              <div
+                  class="icon"
+                  style="
+                  background-image: url(${returnIconUrl(
+                    currentConditions.conditions,
+                    hour.timeOfDay
+                  )});
+                  "
+              ></div>
+              <div class="temp">${hour.temp}°</div>
+          </div>
+          `;
+  }
+}
+
 function updateDisplay(place, { currentConditions, days }) {
   //Main weather
   locationDisplay.textContent = place;
@@ -59,6 +257,9 @@ function updateDisplay(place, { currentConditions, days }) {
     : 0;
   updateTime(currentConditions.sunset);
   windSpeedDisplay.textContent = currentConditions.windspeed;
+
+  updateHourlyDisplay({ days, currentConditions });
+  console.log(days);
 }
 
 const getWeatherData = async (location) => {
@@ -67,7 +268,6 @@ const getWeatherData = async (location) => {
     { mode: "cors" }
   );
   const { currentConditions, days } = await rawData.json();
-
   return { currentConditions, days };
 };
 
@@ -76,11 +276,7 @@ const getQuoteData = async () => {
     const rawData = await fetch(`https://stoic.tekloon.net/stoic-quote`, {
       mode: "cors",
     });
-    // const { author, quote} = await rawData.json();
-    console.log(rawData);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 //Event listeners
@@ -94,14 +290,12 @@ searchBtn.addEventListener("click", async () => {
   }
 });
 
-const setBackGroundGif = async () => {
-  const rawData = await fetch(
-    `https://api.giphy.com/v1/gifs/search?api_key=erLmsNWSybPhBdouBzmAiupverO6J3sy&q=rainfall&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips`,
-    { mode: "cors" }
-  );
+// const setBackGroundGif = async () => {
+//   const rawData = await fetch(
+//     `https://api.giphy.com/v1/gifs/search?api_key=erLmsNWSybPhBdouBzmAiupverO6J3sy&q=rainfall&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips`,
+//     { mode: "cors" }
+//   );
 
-  const { data } = await rawData.json();
-  console.log(data[0].images.original.url);
-};
-
-//Keep beautifying the page, start adding data from API.
+//   const { data } = await rawData.json();
+//   console.log(data[0].images.original.url);
+// };
