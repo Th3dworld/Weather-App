@@ -19,6 +19,8 @@ let randomQuoteDisplay = document.getElementById("randomQuoteVal");
 let place = undefined;
 let weatherData = undefined;
 let currTimeData = undefined;
+let sunrise = undefined;
+let sunset = undefined;
 
 function returnIconUrl(condition, timeOfDay) {
   if (timeOfDay == "AM") {
@@ -299,3 +301,7 @@ searchBtn.addEventListener("click", async () => {
 //   const { data } = await rawData.json();
 //   console.log(data[0].images.original.url);
 // };
+
+//TODO
+//GET SUNRISE AND SUNSET
+//SPLIT ARRAY INTO AM AND PM THEN SORT AND JOIN IN ORDER TO AVOID COMPLICATION
