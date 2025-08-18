@@ -234,6 +234,12 @@ function updateHourlyDisplay({ currentConditions, days }) {
     todayPM = todayPM.slice(0, 11);
     todayPM.unshift(temp);
   }
+
+  if (todayAM.length == 12) {
+    let temp = todayAM[11];
+    todayAM = todayAM.slice(0, 11);
+    todayAM.unshift(temp);
+  }
   //get sorted hours
   todaysHours = todayAM.concat(todayPM);
 
