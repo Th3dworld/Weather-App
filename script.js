@@ -23,8 +23,20 @@ let currTimeData = undefined;
 let sunrise = undefined;
 let sunset = undefined;
 
-function returnIconUrl(condition, timeOfDay) {
-  if (timeOfDay == "AM") {
+function returnIconUrl(condition, timeValue, timeOfDay) {
+  let sunRiseTime = sunrise.timeValue.split(":")[0];
+  let sunSetTime = sunset.timeValue.split(":")[0];
+  console.log(sunRiseTime);
+
+  if (timeOfDay == "AM" && timeValue == sunRiseTime) {
+    return "./assets/sunrise.svg";
+  } else if (timeOfDay == "PM" && timeValue == sunSetTime) {
+    return "./assets/sunset.svg";
+  } else if (
+    (timeOfDay == "AM" && timeValue > sunRiseTime && timeValue != 12) ||
+    (timeOfDay == "PM" && timeValue < sunSetTime) ||
+    (timeOfDay == "PM" && timeValue == 12 && sunSetTime < 12)
+  ) {
     switch (condition) {
       case "Partially cloudy":
         return "./assets/partiallyCloudyDay.svg";
@@ -43,7 +55,11 @@ function returnIconUrl(condition, timeOfDay) {
       case "Snow, Rain, Overcast":
         return "./assets/snowDay.svg";
     }
-  } else {
+  } else if (
+    (timeOfDay == "AM" && timeValue < sunRiseTime) ||
+    (timeOfDay == "PM" && timeValue > sunSetTime) ||
+    (timeOfDay == "AM" && timeValue == 12 && sunRiseTime < 12)
+  ) {
     switch (condition) {
       case "Partially cloudy":
         return "./assets/partiallyCloudyNight.svg";
@@ -61,6 +77,25 @@ function returnIconUrl(condition, timeOfDay) {
         return "./assets/snowNight.svg";
       case "Snow, Rain, Overcast":
         return "./assets/snowNight.svg";
+    }
+  } else if (timeOfDay == "AM") {
+    switch (condition) {
+      case "Partially cloudy":
+        return "./assets/partiallyCloudyDay.svg";
+      case "Clear":
+        return "./assets/sun.svg";
+      case "Rain, Partially cloudy":
+        return "./assets/rainPartiallyCloudyDay.svg";
+      case "Overcast":
+        return "./assets/overcastDay.svg";
+      case "Rain, Overcast":
+        return "./assets/rainyDay.svg";
+      case "Snow, Rain, Partially cloudy":
+        return "./assets/snowDay.svg";
+      case "Snow, Overcast":
+        return "./assets/snowDay.svg";
+      case "Snow, Rain, Overcast":
+        return "./assets/snowDay.svg";
     }
   }
 }
@@ -143,14 +178,14 @@ function updateHourlyDisplay({ currentConditions, days }) {
     return { timeValue, timeOfDay, conditions, temp };
   }
 
-  function todayHelper(todaysHour) {
+  function getValidHours(todaysHour) {
     console.log(currTime.timeValue);
     if (currTime.timeOfDay == "AM" && currTime.timeValue == 12) {
-      console.log("here123");
       return true;
     } else if (currTime.timeOfDay == "AM") {
       return (
-        todaysHour.timeValue >= currTime.timeValue ||
+        (todaysHour.timeValue >= currTime.timeValue &&
+          todaysHour.timeValue != 12) ||
         todaysHour.timeOfDay != currTime.timeOfDay
       );
     } else {
@@ -160,6 +195,14 @@ function updateHourlyDisplay({ currentConditions, days }) {
         todaysHour.timeValue != 12
       );
     }
+  }
+
+  function getAMHours(todaysHour) {
+    return todaysHour.timeOfDay == "AM";
+  }
+
+  function getPMHours(todaysHour) {
+    return todaysHour.timeOfDay == "PM";
   }
 
   function sorthelp(a, b) {
@@ -175,8 +218,24 @@ function updateHourlyDisplay({ currentConditions, days }) {
   //today's hours
   let todaysHours = days[0].hours
     .map((hour) => hourHelper(hour))
-    .filter((hour) => todayHelper(hour))
+    .filter((hour) => getValidHours(hour))
     .sort(sorthelp);
+
+  let todayAM = todaysHours.filter(getAMHours);
+  let todayPM = todaysHours.filter(getPMHours);
+  todayAM = todayAM.sort(sorthelp);
+  todayPM = todayPM.sort(sorthelp);
+  console.log(todayAM);
+  console.log(todayPM);
+
+  //get 12PM to front:
+  if (todayPM.length == 12) {
+    let temp = todayPM[11];
+    todayPM = todayPM.slice(0, 11);
+    todayPM.unshift(temp);
+  }
+  //get sorted hours
+  todaysHours = todayAM.concat(todayPM);
 
   //tomorrows hours
   let tomorrowsHours = days[1].hours.map((hour) => hourHelper(hour));
@@ -193,6 +252,7 @@ function updateHourlyDisplay({ currentConditions, days }) {
                 style="
                     background-image: url(${returnIconUrl(
                       currentConditions.conditions,
+                      currTime.timeValue,
                       currTime.timeOfDay
                     )});
                 "
@@ -211,6 +271,7 @@ function updateHourlyDisplay({ currentConditions, days }) {
                 style="
                     background-image: url(${returnIconUrl(
                       currentConditions.conditions,
+                      hour.timeValue,
                       hour.timeOfDay
                     )});
                 "
@@ -234,6 +295,7 @@ function updateHourlyDisplay({ currentConditions, days }) {
                   style="
                   background-image: url(${returnIconUrl(
                     currentConditions.conditions,
+                    hour.timeValue,
                     hour.timeOfDay
                   )});
                   "
@@ -282,14 +344,6 @@ const getWeatherData = async (location) => {
   );
   const { currentConditions, days } = await rawData.json();
   return { currentConditions, days };
-};
-
-const getQuoteData = async () => {
-  try {
-    const rawData = await fetch(`https://stoic.tekloon.net/stoic-quote`, {
-      mode: "cors",
-    });
-  } catch (error) {}
 };
 
 //Event listeners
