@@ -12,8 +12,9 @@ let feelsLikeDisplay = document.getElementById("feelsLikeVal");
 let precipitationDisplay = document.getElementById("precipitationVal");
 let windSpeedDisplay = document.getElementById("windSpeedVal");
 let sunsetDisplay = document.getElementById("sunsetVal");
-let halfOfDay = document.getElementById("halfOfDay");
-let randomQuoteDisplay = document.getElementById("randomQuoteVal");
+let halfOfDaySet = document.getElementById("halfOfDaySet");
+let halfOfDayRise = document.getElementById("halfOfDayRise");
+let sunRiseDisplay = document.getElementById("sunriseVal");
 
 //variables to be used
 let place = undefined;
@@ -63,9 +64,9 @@ function returnIconUrl(condition, timeOfDay) {
     }
   }
 }
+
 /*
 Posible conditions
-
  */
 
 //functions
@@ -88,8 +89,8 @@ function updateTime(time) {
   }
 
   timeValue += minutes < 10 ? ":0" + minutes : ":" + minutes;
-  sunsetDisplay.textContent = timeValue;
-  halfOfDay.textContent = hours >= 12 ? "PM" : "AM";
+  let timeOfDay = hours >= 12 ? "PM" : "AM";
+  return { timeValue, timeOfDay };
 }
 
 function getCurrtimeFormatted({ datetime }) {
@@ -257,7 +258,17 @@ function updateDisplay(place, { currentConditions, days }) {
   precipitationDisplay.textContent = currentConditions.precip
     ? currentConditions.precip
     : 0;
-  updateTime(currentConditions.sunset);
+
+  //Get sunrise and sunset Data
+  sunset = updateTime(currentConditions.sunset);
+  sunrise = updateTime(currentConditions.sunrise);
+
+  //update sunrise and sunsetDisplay
+  sunRiseDisplay.textContent = sunrise.timeValue;
+  halfOfDayRise = sunrise.timeOfDay;
+  sunsetDisplay.textContent = sunset.timeValue;
+  halfOfDaySet = sunset.timeOfDay;
+
   windSpeedDisplay.textContent = currentConditions.windspeed;
 
   updateHourlyDisplay({ days, currentConditions });

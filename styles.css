@@ -239,7 +239,7 @@ body {
   grid-template-columns: 30px 1fr;
 }
 
-#sunset {
+#sunRise {
   grid-row: 3;
   grid-column: 2;
 
@@ -249,9 +249,10 @@ body {
   display: grid;
   grid-template-rows: 15px 1fr;
   grid-template-columns: 30px 1fr;
+  row-gap: 5px;
 }
 
-#randomQuote {
+#sunset {
   grid-row: 3;
   grid-column: 3;
 
@@ -261,7 +262,6 @@ body {
   display: grid;
   grid-template-rows: 15px 1fr;
   grid-template-columns: 30px 1fr;
-  row-gap: 5px;
 }
 
 .deticon {
@@ -309,14 +309,14 @@ body {
   background-position: 100% 60%;
 }
 
-#sunsetIcon {
-  background-image: url(./assets/sunset.svg);
+#sunRiseIcon {
+  background-image: url(./assets/sunrise.svg);
   background-size: cover;
   background-position: 100% 60%;
 }
 
-#randomQuoteIcon {
-  background-image: url(./assets/quote.svg);
-  background-size: 80%;
+#sunsetIcon {
+  background-image: url(./assets/sunset.svg);
+  background-size: cover;
   background-position: 100% 60%;
 }
