@@ -17,7 +17,8 @@ let halfOfDayRise = document.getElementById("halfOfDayRise");
 let sunRiseDisplay = document.getElementById("sunriseVal");
 
 //variables to be used
-let place = undefined;
+let place = "Lusaka";
+let start = true;
 let weatherData = undefined;
 let currTimeData = undefined;
 let sunrise = undefined;
@@ -246,8 +247,7 @@ function updateHourlyDisplay({ currentConditions, days }) {
   //tomorrows hours
   let tomorrowsHours = days[1].hours.map((hour) => hourHelper(hour));
   let totalHoursDisplayed = 0;
-  console.log(currentConditions.conditions);
-  console.log(returnIconUrl(currentConditions.conditions, "AM"));
+
   todaysHours.forEach((hour) => {
     if (totalHoursDisplayed == 0) {
       hourDisplay.innerHTML = `
@@ -312,6 +312,48 @@ function updateHourlyDisplay({ currentConditions, days }) {
   }
 }
 
+function updateDayDisplay(days) {
+  function dayHelper(day) {
+    let dayData = new Date(day.datetime);
+    const options = { weekday: "short", month: "short", day: "numeric" };
+    dayData = dayData.toLocaleDateString("en-US", options);
+    const high = day.tempmax;
+    const low = day.tempmin;
+
+    return { dayData, high, low };
+  }
+
+  const daysFormatted = days.map((day) => dayHelper(day));
+
+  daysFormatted.forEach((day, index) => {
+    if (index == 0) {
+      dayDisplay.innerHTML = `
+        <div class="day">
+          <div class="name">Today</div>
+          <div class="low">L:${day.low}°</div>
+          <div class="high">H:${day.high}°</div>
+        </div>
+        `;
+    } else if (index == 1) {
+      dayDisplay.innerHTML += `
+          <div class="day">
+            <div class="name">Tommorow</div>
+            <div class="low">L:${day.low}°</div>
+            <div class="high">H:${day.high}°</div>
+          </div>
+          `;
+    } else {
+      dayDisplay.innerHTML += `
+          <div class="day">
+            <div class="name">${day.dayData}</div>
+            <div class="low">L:${day.low}°</div>
+            <div class="high">H:${day.high}°</div>
+          </div>
+          `;
+    }
+  });
+}
+
 function updateDisplay(place, { currentConditions, days }) {
   //Main weather
   locationDisplay.textContent = place;
@@ -327,6 +369,7 @@ function updateDisplay(place, { currentConditions, days }) {
     ? currentConditions.precip
     : 0;
 
+  console.log(days);
   //Get sunrise and sunset Data
   sunset = updateTime(currentConditions.sunset);
   sunrise = updateTime(currentConditions.sunrise);
@@ -340,7 +383,7 @@ function updateDisplay(place, { currentConditions, days }) {
   windSpeedDisplay.textContent = currentConditions.windspeed;
 
   updateHourlyDisplay({ days, currentConditions });
-  console.log(days);
+  updateDayDisplay(days);
 }
 
 const getWeatherData = async (location) => {
@@ -360,19 +403,17 @@ searchBtn.addEventListener("click", async () => {
       String(searchField.value).slice(1);
     weatherData = await getWeatherData(place);
     updateDisplay(place, weatherData);
+  } else if (start == true) {
+    weatherData = await getWeatherData(place);
+    updateDisplay(place, weatherData);
+    start == false;
   }
 });
 
-// const setBackGroundGif = async () => {
-//   const rawData = await fetch(
-//     `https://api.giphy.com/v1/gifs/search?api_key=erLmsNWSybPhBdouBzmAiupverO6J3sy&q=rainfall&limit=25&offset=0&rating=g&lang=en&bundle=messaging_non_clips`,
-//     { mode: "cors" }
-//   );
+searchField.addEventListener("keypress", (e) => {
+  if (e.key == "Enter") {
+    searchBtn.click();
+  }
+});
 
-//   const { data } = await rawData.json();
-//   console.log(data[0].images.original.url);
-// };
-
-//TODO
-//GET SUNRISE AND SUNSET
-//SPLIT ARRAY INTO AM AND PM THEN SORT AND JOIN IN ORDER TO AVOID COMPLICATION
+searchBtn.click();

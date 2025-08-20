@@ -6,227 +6,55 @@
     <title>Weather</title>
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
+    <link rel="icon" type="image/x-icon" href="./assets/icon.svg" />
   </head>
   <body>
     <div id="displayBody">
       <div id="appName">Weather</div>
       <div id="searchArea">
-        <input type="search" id="search" placeholder="Enter location" />
+        <input
+          type="search"
+          id="search"
+          placeholder="Enter location"
+          autocomplete="off"
+        />
         <button id="searchButton">Check Location</button>
       </div>
-      <div id="hours">
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-01-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-36-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-        <div class="hour">
-          <div class="time">3<span class="TOD">AM</span></div>
-          <div
-            class="icon"
-            style="
-              background-image: url(./assets/weather-icons-25-svgrepo-com.svg);
-            "
-          ></div>
-          <div class="temp">33</div>
-        </div>
-      </div>
-      <div id="days">
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-        <div class="day">
-          <div class="name">Today</div>
-          <div class="low">L:20°</div>
-          <div class="high">H:30°</div>
-        </div>
-      </div>
+      <div id="hours"></div>
+      <div id="days"></div>
       <div id="displayArea">
         <div id="weatherDets">
           <div id="location">Lusaka</div>
-          <div id="temp"><span id="tempval">30</span><span>°</span></div>
-          <div id="condition">Cloudy skies throughout the day.</div>
+          <div id="temp"><span id="tempval"></span><span>°</span></div>
+          <div id="condition"></div>
           <div id="hilow">
-            <div id="low">L:<span id="lowVal">20</span>°</div>
-            <div id="high">H:<span id="highVal">20</span>°</div>
+            <div id="low">L:<span id="lowVal"></span>°</div>
+            <div id="high">H:<span id="highVal"></span>°</div>
           </div>
         </div>
         <div id="humidity">
           <div class="deticon" id="humidityIcon"></div>
           <div class="val">
-            <span id="humidityVal">80</span><span class="valSupport">%</span>
+            <span id="humidityVal"></span><span class="valSupport">%</span>
           </div>
           <div class="desc">Humidity</div>
         </div>
         <div id="feelsLike">
           <div class="deticon" id="feelsLikeIcon"></div>
-          <div class="val"><span id="feelsLikeVal">20</span>°</div>
+          <div class="val"><span id="feelsLikeVal"></span>°</div>
           <div class="desc">Feels Like</div>
         </div>
         <div id="precipitation">
           <div class="deticon" id="precipitationIcon"></div>
           <div class="val">
-            <span id="precipitationVal">20</span
-            ><span class="valSupport">%</span>
+            <span id="precipitationVal"></span><span class="valSupport">%</span>
           </div>
           <div class="desc">Precipitation</div>
         </div>
         <div id="windSpeed">
           <div class="deticon" id="windSpeedIcon"></div>
           <div class="val">
-            <span id="windSpeedVal">20</span><span class="valSupport">mph</span>
+            <span id="windSpeedVal"></span><span class="valSupport">mph</span>
           </div>
           <div class="desc">Wind Speed</div>
         </div>
